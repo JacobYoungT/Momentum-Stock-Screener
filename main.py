@@ -1,10 +1,17 @@
 import yfinance as yf
 import pandas as pd
-from datetime import timedelta, date, datetime as dt
-import pytz
+from datetime import timedelta, date
 import os
+from tqdm import tqdm
+import warnings
 
-# Set directory to current directory to load local files
+'''
+There is kind of a performance issue as we are appending are new row for each loop in the for loop...
+Which is why we ignore the warning right now.
+'''
+warnings.simplefilter(action='ignore', category=pd.errors.PerformanceWarning)
+
+# Set directories
 current_dir = os.getcwd()
 data_dir = os.path.join(current_dir, 'data')
 output_dir = os.path.join(current_dir, 'output')
@@ -21,13 +28,17 @@ print("Start:", start_date)
 print("End:", end_date)
 
 ## Download stock data
-stock_data = []
-for ticker in tickers['Symbol']:
-    raw_data = yf.download(ticker, start=start_date, end=end_date, interval='1d')
-    raw_data['Symbol'] = ticker
-    stock_data.append(raw_data)
-stock_data = pd.concat(stock_data)
+stock_data = pd.DataFrame()
+for ticker in tqdm(tickers['Symbol'], desc="Downloading stock data"):
+    try:
+        raw_data = yf.download(ticker, start=start_date, end=end_date, interval='1d', progress=False)
+        raw_data['Symbol'] = ticker
+        stock_data[ticker] = raw_data['Close']
+    except Exception as e:
+        print(f"Error downloading {ticker}: {e}")
+
 stock_data.reset_index(inplace=True)
+stock_data = pd.melt(stock_data, id_vars=['Date'], value_vars=tickers['Symbol'], var_name='Symbol', value_name='Close')
 
 # Calculate weekly close prices
 ## Calculate week start date and weekday number
@@ -38,7 +49,11 @@ stock_data['WeekDayNumber'] = stock_data['Date'].dt.weekday
 grouped_df = stock_data.groupby(['Symbol', 'WeekStartDate'])['WeekDayNumber'].max().reset_index()
 
 ## Merge to get the close price for max weekday number
-friday_close_data = pd.merge(stock_data, grouped_df, on=['Symbol', 'WeekStartDate', 'WeekDayNumber'], how='inner')
+friday_close_data = pd.merge(
+    stock_data, grouped_df,
+    on=['Symbol', 'WeekStartDate', 'WeekDayNumber'],
+    how='inner'
+)
 
 # Calculate momentum
 ## Calculate the stock price four weeks ago for each date
