@@ -41,16 +41,30 @@ To run the project from the terminal, follow these steps:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/JacobYoungT/Stock-Momentum-Calculator.git
+git clone https://github.com/[your-username]/Stock-Momentum-Calculator.git
 cd Stock-Momentum-Calculator
 ```
 
-2. Install the required packages:
+2. Create and activate a virtual environment:
+
+On Windows:
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+On macOS/Linux:
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+3. Install the required packages:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Run the main script:
+4. Run the main script:
 ```bash
 python main.py
 ```
@@ -60,3 +74,8 @@ The script will:
 2. Download the historical data for each ticker
 3. Calculate momentum and smoothness metrics
 4. Save the results to `output/momentum_smooth_by_ticker.xlsx`
+
+To deactivate the virtual environment when you're done:
+```bash
+deactivate
+```
