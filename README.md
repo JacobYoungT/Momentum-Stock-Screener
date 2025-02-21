@@ -1,4 +1,4 @@
-# Momentum Stock Screener
+# Stock Momentum Calculator
 
 This repository contains a Python script that downloads historical stock data for S&P 500 companies and calculates both momentum and smoothness metrics for each stock over a specified time period.
 
