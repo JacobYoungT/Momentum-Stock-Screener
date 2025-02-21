@@ -7,8 +7,8 @@ This repository contains a Python script that downloads historical stock data fo
 The script uses [yfinance](https://pypi.org/project/yfinance/) to retrieve daily historical stock prices for the tickers listed in the CSV file `sp500_tickers.csv` (located in the `data` folder). The data is then transformed into a long-format DataFrame and processed to:
 
 - Calculate weekly closing prices by grouping daily data by week.
-- Compute **momentum** for each stock based on the ratio between the current week’s closing price and the closing price from four weeks ago.
-- Compute **smoothness** as a measure of how consistently the stock’s price has increased week over week.
+- Compute **momentum** for each stock based on the ratio between the current week's closing price and the closing price from four weeks ago.
+- Compute **smoothness** as a measure of how consistently the stock's price has increased week over week.
 
 The final results are saved in an Excel file (`momentum_smooth_by_ticker.xlsx`) in the `output` folder.
 
@@ -16,7 +16,7 @@ The final results are saved in an Excel file (`momentum_smooth_by_ticker.xlsx`) 
 
 - **Data Retrieval:** Downloads daily stock prices for specified tickers using Yahoo Finance.
 - **Data Transformation:** Reshapes data from wide to long format with columns for `Date`, `Symbol`, and `Close`.
-- **Weekly Aggregation:** Determines the week’s start date (Monday) for each record and calculates the corresponding weekday number.
+- **Weekly Aggregation:** Determines the week's start date (Monday) for each record and calculates the corresponding weekday number.
 - **Momentum Calculation:** 
   - Computes the price from four weeks ago for each week.
   - Calculates weekly momentum as: 
@@ -29,8 +29,34 @@ The final results are saved in an Excel file (`momentum_smooth_by_ticker.xlsx`) 
 
 ## Requirements
 
-To install the necessary packages, use the `requirements.txt` file provided.
+To install the necessary packages, use the `requirements.txt` file provided:
 
 ```bash
 pip install -r requirements.txt
 ```
+
+## Usage
+
+To run the project from the terminal, follow these steps:
+
+1. Clone the repository:
+```bash
+git clone https://github.com/JacobYoungT/Stock-Momentum-Calculator.git
+cd Stock-Momentum-Calculator
+```
+
+2. Install the required packages:
+```bash
+pip install -r requirements.txt
+```
+
+3. Run the main script:
+```bash
+python main.py
+```
+
+The script will:
+1. First scrape the latest S&P 500 tickers (using `scrape_sp500.py`)
+2. Download the historical data for each ticker
+3. Calculate momentum and smoothness metrics
+4. Save the results to `output/momentum_smooth_by_ticker.xlsx`
