@@ -19,10 +19,7 @@ The final results are saved in an Excel file (`momentum_smooth_by_ticker.xlsx`) 
 - **Weekly Aggregation:** Determines the week’s start date (Monday) for each record and calculates the corresponding weekday number.
 - **Momentum Calculation:** 
   - Computes the price from four weeks ago for each week.
-  - Calculates weekly momentum as:  
-    \[
-    \text{Momentum} = 1 + \frac{\text{Current Close} - \text{Close Four Weeks Ago}}{\text{Close Four Weeks Ago}}
-    \]
+  - Calculates weekly momentum as: $\text{Momentum} = 1 + \frac{\text{Current Close} - \text{Close Four Weeks Ago}}{\text{Close Four Weeks Ago}}$
   - Aggregates the weekly momentum to obtain an overall momentum per stock.
 - **Smoothness Calculation:** Measures the consistency of price increases from one week to the next.
 - **Sorting and Output:** Sorts the results by momentum and smoothness, and exports the final DataFrame to an Excel file.
