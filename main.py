@@ -2,14 +2,6 @@ import yfinance as yf
 import pandas as pd
 from datetime import timedelta, date
 import os
-from tqdm import tqdm
-import warnings
-
-'''
-There is kind of a performance issue as we are appending are new row for each loop in the for loop...
-Which is why we ignore the warning right now.
-'''
-warnings.simplefilter(action='ignore', category=pd.errors.PerformanceWarning)
 
 # Set directories
 current_dir = os.getcwd()
@@ -18,6 +10,7 @@ output_dir = os.path.join(current_dir, 'output')
 
 # Read tickers from data dir
 tickers = pd.read_csv(os.path.join(data_dir, 'sp500_tickers.csv'))
+tickers_list = tickers['Symbol'].tolist()
 
 # Define the time period and download data
 ## Define time period
@@ -28,17 +21,8 @@ print("Start:", start_date)
 print("End:", end_date)
 
 ## Download stock data
-stock_data = pd.DataFrame()
-for ticker in tqdm(tickers['Symbol'], desc="Downloading stock data"):
-    try:
-        raw_data = yf.download(ticker, start=start_date, end=end_date, interval='1d', progress=False)
-        raw_data['Symbol'] = ticker
-        stock_data[ticker] = raw_data['Close']
-    except Exception as e:
-        print(f"Error downloading {ticker}: {e}")
-
-stock_data.reset_index(inplace=True)
-stock_data = pd.melt(stock_data, id_vars=['Date'], value_vars=tickers['Symbol'], var_name='Symbol', value_name='Close')
+stock_data = yf.download(tickers_list, group_by='Ticker', start=start_date, end=end_date, interval='1d', progress=True)
+stock_data = stock_data.stack(level=0).rename_axis(['Date', 'Symbol']).reset_index()
 
 # Calculate weekly close prices
 ## Calculate week start date and weekday number
@@ -89,6 +73,8 @@ smo_by_ticker = momentum_data.groupby('Symbol').agg(
 
 # Combine momentum and smoothness
 momentum_smooth_by_ticker = mom_by_ticker.merge(smo_by_ticker, on='Symbol', how='inner')
+momentum_smooth_by_ticker = momentum_smooth_by_ticker.sort_values('Momentum', ascending=False).head(10)
+momentum_smooth_by_ticker = momentum_smooth_by_ticker.sort_values(['Momentum', 'Smoothness'], ascending=False)
 
 # Output to excel
 momentum_smooth_by_ticker.to_excel(os.path.join(output_dir, 'momentum_smooth_by_ticker.xlsx'), index=False)
