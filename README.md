@@ -41,7 +41,7 @@ To run the project from the terminal, follow these steps:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/[your-username]/Stock-Momentum-Calculator.git
+git clone https://github.com/JacobYoungT/Stock-Momentum-Calculator.git
 cd Stock-Momentum-Calculator
 ```
 
