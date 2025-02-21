@@ -21,7 +21,14 @@ print("Start:", start_date)
 print("End:", end_date)
 
 ## Download stock data
-stock_data = yf.download(tickers_list, group_by='Ticker', start=start_date, end=end_date, interval='1d', progress=True)
+stock_data = yf.download(
+    tickers_list,
+    group_by='Ticker',
+    start=start_date,
+    end=end_date,
+    interval='1d',
+    progress=True
+)
 stock_data = stock_data.stack(level=0).rename_axis(['Date', 'Symbol']).reset_index()
 
 # Calculate weekly close prices
@@ -73,7 +80,7 @@ smo_by_ticker = momentum_data.groupby('Symbol').agg(
 
 # Combine momentum and smoothness
 momentum_smooth_by_ticker = mom_by_ticker.merge(smo_by_ticker, on='Symbol', how='inner')
-momentum_smooth_by_ticker = momentum_smooth_by_ticker.sort_values('Momentum', ascending=False).head(10)
+momentum_smooth_by_ticker = momentum_smooth_by_ticker.sort_values('Momentum', ascending=False)
 momentum_smooth_by_ticker = momentum_smooth_by_ticker.sort_values(['Momentum', 'Smoothness'], ascending=False)
 
 # Output to excel
