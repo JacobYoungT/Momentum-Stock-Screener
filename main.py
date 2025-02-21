@@ -1,5 +1,5 @@
-from scrape_sp500 import scrape_sp500_tickers
-from calculator import calculate_momentum_and_smoothness
+from project.scrape_sp500 import scrape_sp500_tickers
+from project.calculator import calculate_momentum_and_smoothness
 
 def main():
     scrape_sp500_tickers()
