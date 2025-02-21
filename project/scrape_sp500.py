@@ -5,12 +5,12 @@ from config import data_dir
 def scrape_sp500_tickers(
         link='https://en.wikipedia.org/wiki/List_of_S%26P_500_companies#S&P_500_component_stocks',
         output_file='sp500_tickers.csv',
-        data_dir=data_dir
+        _dir=data_dir
 ):
 
     df = pd.read_html(link, header=0)[0]
     df = df['Symbol']
 
     # Write to .csv
-    df.to_csv(os.path.join(data_dir, output_file), index=False)
+    df.to_csv(os.path.join(_dir, output_file), index=False)
     print(f"Tickers saved to {output_file}")
