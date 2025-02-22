@@ -3,7 +3,7 @@ from momentum_calculator.calculator import calculate_momentum_and_smoothness
 
 def main():
     scrape_sp500_tickers()
-    calculate_momentum_and_smoothness('sp500_tickers.csv')
+    calculate_momentum_and_smoothness()
 
 if __name__ == "__main__":
     main()

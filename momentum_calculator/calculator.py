@@ -5,7 +5,7 @@ import os
 from momentum_calculator.config import data_dir, output_dir
 
 def calculate_momentum_and_smoothness(
-        ticker_file,
+        ticker_file='sp500_tickers.csv',
         start_weeks=52,
         end_weeks=4,
         output_file='momentum_smooth_by_ticker.xlsx',
