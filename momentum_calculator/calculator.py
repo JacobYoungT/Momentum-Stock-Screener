@@ -12,6 +12,7 @@ def calculate_momentum_and_smoothness(
         dir_data=data_dir,
         dir_output=output_dir
 ):
+    os.makedirs(dir_output, exist_ok=True)
 
     # Read tickers from data dir
     tickers = pd.read_csv(os.path.join(dir_data, ticker_file))

@@ -7,6 +7,7 @@ def scrape_sp500_tickers(
         output_file='sp500_tickers.csv',
         _dir=data_dir
 ):
+    os.makedirs(_dir, exist_ok=True)
 
     df = pd.read_html(link, header=0)[0]
     df = df['Symbol']
