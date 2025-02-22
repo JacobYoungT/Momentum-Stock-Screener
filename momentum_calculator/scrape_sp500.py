@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from config import data_dir
+from momentum_calculator.config import data_dir
 
 def scrape_sp500_tickers(
         link='https://en.wikipedia.org/wiki/List_of_S%26P_500_companies#S&P_500_component_stocks',

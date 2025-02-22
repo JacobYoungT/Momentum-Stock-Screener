@@ -2,7 +2,7 @@ import yfinance as yf
 import pandas as pd
 from datetime import timedelta, date
 import os
-from config import data_dir, output_dir
+from momentum_calculator.config import data_dir, output_dir
 
 def calculate_momentum_and_smoothness(
         ticker_file,
