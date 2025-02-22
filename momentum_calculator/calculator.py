@@ -2,16 +2,17 @@ import yfinance as yf
 import pandas as pd
 from datetime import timedelta, date
 import os
-from config import data_dir, output_dir
+from momentum_calculator.config import data_dir, output_dir
 
 def calculate_momentum_and_smoothness(
-        ticker_file,
+        ticker_file='sp500_tickers.csv',
         start_weeks=52,
         end_weeks=4,
         output_file='momentum_smooth_by_ticker.xlsx',
         dir_data=data_dir,
         dir_output=output_dir
 ):
+    os.makedirs(dir_output, exist_ok=True)
 
     # Read tickers from data dir
     tickers = pd.read_csv(os.path.join(dir_data, ticker_file))
